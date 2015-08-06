@@ -102,6 +102,8 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
     self.transitioningDelegate = self;
     
     self.view.backgroundColor = self.cropView.backgroundColor;
+
+    [self setInitialAspectRatio];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -136,6 +138,19 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
     [super viewDidDisappear:animated];
     self.inTransition = NO;
     [self setNeedsStatusBarAppearanceUpdate];
+}
+
+- (void)setInitialAspectRatio
+{
+
+    // Create the aspect ratio
+    CGSize aspectRatio = CGSizeMake(1.0f, 1.0f);
+
+    // Set the aspect ratio
+    [self.cropView setAspectLockEnabledWithAspectRatio:aspectRatio animated:false];
+
+    // Set the button as active
+    self.toolbar.clampButtonGlowing = true;
 }
 
 #pragma mark - Status Bar -
@@ -242,6 +257,7 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
     [self.cropView resetLayoutToDefaultAnimated:YES];
     self.cropView.aspectLockEnabled = NO;
     self.toolbar.clampButtonGlowing = NO;
+    [self setInitialAspectRatio];
 }
 
 #pragma mark - Aspect Ratio Handling -
